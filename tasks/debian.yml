@@ -1,0 +1,57 @@
+---
+- name: "install dependencies"
+    name: glibc
+    state: present
+
+
+- name: "install mc"
+  get_url:
+    url: https://dl.min.io/client/mc/release/linux-amd64/mc
+    dest: /root/
+    mode: 0700
+
+- name: "create minio"
+  file: 
+    path: /root/.mc
+    state: directory
+    mode: '0755'
+
+- name: "minio config"
+  template: 
+    src: config.json.j2
+    dest: /root/.mc/config.json
+    mode: '0644'
+     
+
+- name: "create factorio user" 
+  user:
+    name: factorio
+    create_home: no
+    state: present
+
+
+- name: "download factorio"
+  command: /root/mc cp "{{ factorio_file }}" /srv/
+
+- name:
+  file:
+    path: /srv/factorio
+    state: directory
+    mode: '0755'
+    owner: factorio
+    group: factorio
+
+- name: "uncompress tar  file"
+  unarchive: 
+    src: "/srv/'{{ factorio_file }}'"
+    dest: /srv/factorio
+
+- name: "create save file"
+  command: ./bin/x64/factorio --create ./saves/my-save.zip
+  
+
+- name: "start server"
+  command:  ./bin/x64/factorio --start-server ./saves/my-save.zip 
+  become_user: factorio
+
+
