@@ -1,9 +1,4 @@
 ---
-- name: "install dependencies"
-    name: glibc
-    state: present
-
-
 - name: "install mc"
   get_url:
     url: https://dl.min.io/client/mc/release/linux-amd64/mc
@@ -43,15 +38,12 @@
 
 - name: "uncompress tar  file"
   unarchive: 
-    src: "/srv/'{{ factorio_file }}'"
-    dest: /srv/factorio
+    src: "/srv/{{ factorio_file }}"
+    dest: /srv/
 
 - name: "create save file"
-  command: ./bin/x64/factorio --create ./saves/my-save.zip
+  command: /srv/factorio/bin/x64/factorio --create /srv/factorio/saves/my-save.zip
   
 
-- name: "start server"
-  command:  ./bin/x64/factorio --start-server ./saves/my-save.zip 
-  become_user: factorio
 
 
