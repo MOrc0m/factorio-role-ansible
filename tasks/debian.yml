@@ -44,6 +44,5 @@
 - name: "create save file"
   command: /srv/factorio/bin/x64/factorio --create /srv/factorio/saves/my-save.zip
   
-
-
-
+- name: "Start server"
+  shell: "./bin/x64/factorio --start-server ./saves/my-save.zip --server-settings data/server-settings.json >/dev/null 2>&1 &"

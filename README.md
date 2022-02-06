@@ -15,7 +15,8 @@ vars:
 # Set your personal minio credentials ;)
   minio_user: 'insert your use' 	 
   minio_passwd: 'insert your password' 
-
+  is_public: [true/false]
+  psswd: "Insert your password"
 roles:
   - factorio_role_ansible
 
